@@ -47,6 +47,26 @@ function Form(){
         const {name , value} = event.target;
         updateLoginData( (prevState) => {return {...prevState , [name]:value} });
     }
+
+    const handleClick = () => {
+        if(registered){
+            console.log("Check for logging in");
+        }else{
+            console.log("Check for signing up");
+            const {userEmail , userPassword } = userData;
+            console.log(userEmail , userPassword);
+            
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userEmail: userEmail , userPassword: userPassword})
+            };
+            fetch('/signup', requestOptions)
+                .then(response => response.json())
+                .then(data => {console.log(data);
+                });
+        }
+    }
      
     return <div>
         <Header/>
@@ -67,12 +87,12 @@ function Form(){
             />
         </FormGroup>
         <div className="center">
-            <Link  style={ {textDecoration: 'none'} } to="/home">
+            {/* <Link  style={ {textDecoration: 'none'} } to="/home"> */}
 
-                <Button variant="contained" color="primary" >
+                <Button onClick={handleClick} variant="contained" color="primary" >
                     {registered? "Login" : "Sign Up"}
                 </Button>
-            </Link>
+            {/* </Link> */}
         </div>
         
         <Footer/>
